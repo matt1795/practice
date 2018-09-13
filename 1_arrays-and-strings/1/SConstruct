@@ -1,0 +1,7 @@
+Program(
+	'unique-chars', 
+	Glob('src/*.cpp') + Glob('test/*.cpp'),
+	CPPPATH=['inc'],
+	LIBS=['gtest', 'gtest_main']
+)
+
