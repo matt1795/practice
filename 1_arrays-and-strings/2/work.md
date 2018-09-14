@@ -25,3 +25,13 @@ complexity is O(2n).
 This function does not alter the original string (keeping it const) since it is
 common for classes to prohibit external alterations of their string (eg.
 std::string).
+
+### Correction
+
+In the above solution I use malloc to allocate memory. This was an oversight on
+my part, it passed the test, however it is very unusable because it will likely
+create a memory leak if the user of this function does not know to free the
+memory afterwards. What might work better is to either change the string in
+place, changing the function signature to void reverse(char *), or to allow the
+user to manage memory for the output. This would require simply describing the
+basic operation of the string, and letting them deal with things how they wish.
