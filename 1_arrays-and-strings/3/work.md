@@ -35,3 +35,18 @@ they are the same, then the counter is incremented and the cursor moves on.
 Finally, if the character is different, and the counter is greater than one,
 then the character gets copied to a preceding position with a relative position
 equal to the counter value.
+
+### Lessons (re)learned
+
+When initially writing the tests, I made the mistake of defining the inputs as
+pointers to string literals. The problem here is that the string literals are
+stored in read-only memory, and thus I was getting seg faults. If a string is
+going to be edited in place, it needs to be stored in an array that can be
+written to, and to get this behaviour we can declare the variable as a char
+array Eg:
+
+```
+char testString[] = "test";
+```
+
+And now the string is not saved in read-only memory.

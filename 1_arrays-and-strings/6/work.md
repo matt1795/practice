@@ -9,7 +9,7 @@ place?
 The function signature will look like the following:
 
 ```
-int rotateNinety(uint32_t *mat, size_t side);
+int rotate_ninety(uint32_t *mat, size_t side);
 ```
 
 The function returns a 0 on success and 1 on failure. The two arguments are a

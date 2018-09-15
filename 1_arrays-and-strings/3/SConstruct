@@ -1,0 +1,8 @@
+env = Environment(CCFLAGS='-g')
+env.Program(
+	'remove-duplicates', 
+	Glob('src/*.c') + Glob('test/*.c'),
+	CPPPATH=['inc'],
+	LIBS=['gtest', 'gtest_main']
+)
+

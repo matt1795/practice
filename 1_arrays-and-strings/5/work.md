@@ -10,7 +10,7 @@ test cases that are implementation specific.
 Function signature:
 
 ```
-int spaceTwenty(char *str, size_t len);
+int space_twenty(char *str, size_t len);
 ```
 
 The int tells us the result. the str pointer points to a char buffer, and len
