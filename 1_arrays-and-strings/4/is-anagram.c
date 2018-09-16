@@ -10,7 +10,7 @@
 
 #define ALPHA_LEN 26
 
-void inc_alpha_hist(int *alphabet, char *str, int inc);
+void inc_alpha_hist(int *alphabet, const char *str, int inc);
 
 bool is_anagram(const char *str1, const char *str2) {
 	int alphabet[ALPHA_LEN] = { 0 };
@@ -19,7 +19,7 @@ bool is_anagram(const char *str1, const char *str2) {
 	inc_alpha_hist(alphabet, str2, -1);
 
 	int i;
-	for (i = 0; i < ALPHA_LEN; i++) {
+	for (i = 0; i < ALPHA_LEN; i++)
 		if (alphabet[i] != 0)
 			return false;
 
@@ -27,12 +27,12 @@ bool is_anagram(const char *str1, const char *str2) {
 }
 
 // increment alphabet bins
-void inc_alpha_hist(int *alphabet, char *str, int inc) {
+void inc_alpha_hist(int *alphabet, const char *str, int inc) {
 	for(; *str != '\0'; str++) {
-		if (*str > 0x40 && *str < 0x61) {
-			alphabet[*str - 0x41] += inc;
-		} else if (*str > 0x72 && *str < 0x7B) {
-			alphabet[*str - 0x61] += inc;
+		if (*str >= 'A' && *str <= 'Z') {
+			alphabet[*str - 'A'] += inc;
+		} else if (*str >= 'a' && *str <= 'z') {
+			alphabet[*str - 'a'] += inc;
 		}
 	}
 }

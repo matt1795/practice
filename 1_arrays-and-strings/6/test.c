@@ -1,7 +1,7 @@
 // Rotate Ninety Function test
 //
 // Author: Matthew Knight
-// File Name: rotate-ninety-test.c
+// File Name: test.c
 // Date: 2018-09-15
 //
 // This program tests a function for rotating a square matrix by 90 degrees.

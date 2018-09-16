@@ -13,4 +13,4 @@
 
 int space_twenty(char *str, size_t len);
 
-#endif
+#endif // SPACE_TWENTY

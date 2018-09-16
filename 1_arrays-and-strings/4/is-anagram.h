@@ -11,6 +11,6 @@
 
 #include <stdbool.h>
 
-bool is_anagram(char *str1, char *str2);
+bool is_anagram(const char *str1, const char *str2);
 
 #endif // IS_ANAGRAM_H

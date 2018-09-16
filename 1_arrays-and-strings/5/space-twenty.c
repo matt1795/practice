@@ -6,6 +6,8 @@
 //
 // This function replaces all spaces withing a string with "%20"
 
+#include "space-twenty.h"
+
 #define TAG_SIZE 3
 
 static const char *tag = "%20";
@@ -15,10 +17,14 @@ int space_twenty(char *str, size_t len) {
 	char *cursor = str;
 
 	// move to end of string and count spaces
-	for (; *cursor != '\0'' cursor++)
+	for (; *cursor != '\0'; cursor++)
 		if (*cursor == ' ')
 			count++;
 	
+	// exit if there is nothing to do
+	if (count == 0)
+		return 0;
+
 	// Calculate how long the new string is going to be.
 	char *endPoint = cursor + (TAG_SIZE - 1) * count;
 	
@@ -37,5 +43,9 @@ int space_twenty(char *str, size_t len) {
 		} else {
 			*endPoint = *cursor;
 			endPoint--;
+		}
 	}
+	
+	// exit with success
+	return 0;
 }
