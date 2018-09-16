@@ -61,6 +61,10 @@ int zero_row_col(int *mat, size_t rows, size_t cols) {
 			}
 		}
 	}
+
+	// free memory
+	free(row_flags);
+	free(col_flags);
 	
 	// exit on success
 	return 0;
