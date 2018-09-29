@@ -25,6 +25,7 @@ class Tree {
 		T val;
 		std::array<Node*, 2> ch;
 		// ctor and dtor
+	public:
 		Node(T &val);
 		~Node();
 	};
@@ -34,6 +35,7 @@ class Tree {
 		Node *parent;
 		std::array<int, 2> ht;
 
+	public:
 		// ctor
 		Probe(Node *parent);
 		void addHeight(int height);
@@ -48,9 +50,12 @@ class Tree {
 public:
 	// default ctor
 	Tree();
+	
+	// generate minimum height tree from sorted array
+	Tree(T *arr, size_t len);
 
 	// insert value into tree
-	void insert(T &val);
+	void insert(T val);
 
 	// check if the tree is balanced
 	bool balanced();

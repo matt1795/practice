@@ -43,9 +43,18 @@ void Tree<T>::Probe::addHeight(int height) {
 template <typename T>
 Tree<T>::Tree() : tree(nullptr) {}
 
+// Ctor from sorted array
+template <typename T>
+Tree<T>::Tree(T *arr, size_t len) : tree(nullptr) {
+	// first insert all values into the array consecutively
+	for (int i = 0; i < len; i++) {
+		insert(arr[i]);
+	}
+}
+
 // insert value into tree
 template <typename T>
-void Tree<T>::insert(T &val) {
+void Tree<T>::insert(T val) {
 	if (tree == nullptr) {
 		tree = new Node(val);
 	} else {
@@ -53,7 +62,7 @@ void Tree<T>::insert(T &val) {
 		bool dir;
 		while (true) {
 			// determine direction
-			if (val > cursor->val)
+			if (val < cursor->val)
 				dir = LEFT;
 			else
 				dir = RIGHT;
@@ -74,21 +83,26 @@ template <typename T>
 bool Tree<T>::balanced() {
 	std::stack<Probe> stack;
 	Node *cursor = tree;
+	
+	// load root node
+	if (cursor != nullptr) {
+		stack.emplace(cursor);
+	}
 
 	while (!stack.empty()) {
-		Probe probe = stack.front();	
+		Probe probe = stack.top();	
 		
 		// One of the heights hasn't been determined
-		if (probe.ht[LEFT] < 0 || probe.ht[RIGHT] < 0) {
+		if (stack.top().ht[LEFT] < 0 || stack.top().ht[RIGHT] < 0) {
 			bool dir;
 			// choose height to determine
-			if (probe.ht[LEFT] < 0)
+			if (stack.top().ht[LEFT] < 0)
 				dir = LEFT;
 			else 
 				dir = RIGHT;	
 			
 			if (cursor->ch[dir] == nullptr) {
-				probe.ht[dir] = 0;
+				stack.top().ht[dir] = 0;
 			} else {
 				stack.emplace(cursor);
 				cursor = cursor->ch[dir];
@@ -96,14 +110,14 @@ bool Tree<T>::balanced() {
 		// both node's height have been determined
 		} else {
 			// definition of unbalanced
-			if (std::abs(probe.ht[LEFT] - probe.ht[RIGHT]) > 1) {
+			if (std::abs(stack.top().ht[LEFT] - stack.top().ht[RIGHT]) > 1) {
 				return false;
 			} else {
-				int height = std::max(probe.ht);
+				int height = std::max(stack.top().ht[LEFT], stack.top().ht[RIGHT]);
 
 				stack.pop();
 				if (!stack.empty())
-					probe.addHeight(height);
+					stack.top().addHeight(height + 1);
 			}
 		}
 	}
