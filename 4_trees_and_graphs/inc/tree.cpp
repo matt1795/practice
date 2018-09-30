@@ -9,7 +9,11 @@
 #include "tree.hpp"
 
 #include <cmath>
+#include <iostream>
 #include <stack>
+#include <memory>
+#include <list>
+#include <vector>
 
 // Node ctor
 template <typename T>
@@ -50,6 +54,38 @@ Tree<T>::Tree(T *arr, size_t len) : tree(nullptr) {
 	for (int i = 0; i < len; i++) {
 		insert(arr[i]);
 	}
+	
+	// divide len by 2
+	len = len >> 1;
+	recursiveRotate(LEFT, &tree, len);
+}
+
+// rotate by a direction once
+template <typename T>
+void Tree<T>::rotate(Direction dir, Node **node) {
+	if (*node == nullptr || (*node)->ch[!dir] == nullptr)
+		return;
+
+	Node *tmp = *node;
+	*node = (*node)->ch[!dir];
+	tmp->ch[!dir] = (*node)->ch[dir];
+	(*node)->ch[dir] = tmp;
+}
+
+// rotate recursively
+template <typename T>
+void Tree<T>::recursiveRotate(Direction dir, Node **node, int num) {
+	if (*node == nullptr)
+		return;
+
+	for (int i = 0; i < num; i++)
+		rotate(dir, node);
+	
+	num = num >> 1;
+	if (num > 0) {
+		recursiveRotate(LEFT, &((*node)->ch[RIGHT]), num);
+		recursiveRotate(RIGHT, &((*node)->ch[LEFT]), num);
+	}
 }
 
 // insert value into tree
@@ -76,6 +112,56 @@ void Tree<T>::insert(T val) {
 			}
 		}
 	}
+}
+
+// return height of a node using recursion
+template <typename T>
+int Tree<T>::nodeHeight(Node *node) {
+	if (node == nullptr)
+		return 0;
+	else
+		return std::max(nodeHeight(node->ch[RIGHT]), nodeHeight(node->ch[LEFT]))
+			+ 1;
+}
+
+// return height of the tree
+template <typename T>
+int Tree<T>::height() {
+	return nodeHeight(tree);
+}
+
+// traverse using preorder and call callback
+template <typename T>
+void Tree<T>::preorder(
+	Node *node, 
+	std::function<void (Node *node, int depth)> callback,
+	int depth
+) {
+	if (node == nullptr)
+		return;
+	
+	callback(node, depth);
+	
+	depth += 1;
+	
+	preorder(node->ch[LEFT], callback, depth);
+	preorder(node->ch[RIGHT], callback, depth);
+}
+
+
+// get list of values of each node at each level
+template <typename T>
+std::unique_ptr<std::vector<std::list<T>>> Tree<T>::getList() {
+	std::unique_ptr<std::vector<std::list<T>>> list(new std::vector<std::list<T>>);
+	
+	preorder(tree, [&](Node *node, int depth) {
+		if ((*list).size() < depth + 1)
+			(*list).resize(depth + 1);
+
+		(*list)[depth].push_back(node->val);
+	}, 0);
+	
+	return list;
 }
 
 // check if the tree is balanced

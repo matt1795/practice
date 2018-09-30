@@ -10,6 +10,10 @@
 #define TREE_HPP
 
 #include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <vector>
 
 template <typename T>
 class Tree {
@@ -43,10 +47,23 @@ class Tree {
 	
 	// private members
 	Node *tree;
+	
+	// rotate node in one direction
+	void rotate(Direction dir, Node **node);
 
-	void rotate(Node **node, Direction dir);
+	// recursively rotate 
+	void recursiveRotate(Direction dir, Node **node, int num);
 
-	void recursiveRot(Node **node, Direction dir, int num);
+	// get height of a node
+	int nodeHeight(Node *node);
+	
+	// traverse using different methods and call callback
+	void preorder(
+		Node *node, 
+		std::function<void (Node *node, int depth)> callback, 
+		int depth
+	);
+
 public:
 	// default ctor
 	Tree();
@@ -56,6 +73,12 @@ public:
 
 	// insert value into tree
 	void insert(T val);
+
+	// get height of the tree
+	int height();
+	
+	// get list of values of each node at each level
+	std::unique_ptr<std::vector<std::list<T>>> getList();
 
 	// check if the tree is balanced
 	bool balanced();
